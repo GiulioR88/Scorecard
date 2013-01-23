@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="cssgui.css" rel="stylesheet" media="screen">
+
+<title>prova interfaccia</title>
+
+<script>
+$(document).ready( function (){
+	$("button").on("click",function (event){
+		$.ajax("http://localhost:8888/votes",{
+			 
+			type:'POST',
+			processData: false,
+			contentType:'application/json',
+			data:JSON.stringify({	//necessaria stringhizzazione dell'oggetto tramite .stringify
+				agency:'3',
+				vote:$(event.target).data('vote'),
+				date: new Date()
+			}),
+			success: function(){
+				$('#myModal').modal({
+	    			//keyboard:false,
+	    			backdrop:'static' //disabilitazione utilizzo del touch e mouse
+	    		});
+				$("#myModalLabel").text(" Votazione eseguita con successo!"); //inserisco il testo all'interno del modal 
+				$("#top").text("La direzione la ringrazia per la cortese collaborazione!");
+				$("#bot").text("Grazie e buon proseguimento di giornata.");
+			},
+			error: function(){
+				$('#myModal').modal({
+	    			//keyboard:false,
+	    			backdrop:'static' //disabilitazione utilizzo del touch o  mouse
+	    		});
+				$("#myModalLabel").text(" Votazione eseguita senza successo!"); //inserisco il testo all'interno del modal
+				$("#top").text("ERRORE : votazione non riuscita. Si prega cortesemente di riprovare. Grazie!");
+				
+			},
+			
+			complete: function(response) { 
+				switch(response.status){
+				case 201: 
+					console.log(response);
+					break;
+				default:
+					console.log(response);
+					break;
+				}
+			}
+			
+		});
+	}),
+	
+//Funzione per la temporizzazione del pupup..impostazione 3 sec
+
+	$('#myModal').on('shown',function(){
+		setTimeout(function(){$('#myModal').modal('hide')},3000);
+			
+		});
+		
+		
+	});
+	
+	
+/*-----Funzione di prova per la disabilitazione dei tsti
+ 
+ 
+ $(document).ready(function(){
+	$("button").on("click", function(event){
+			$("button").attr('disabled','disabled');
+			});
+});
+*/
+
+
+</script>
+</head>
+
+<body>
+
+<div class='container'>
+
+	<div  class='hero-unit'>
+		<h1>Quanto sei soddisfatto?</h1>
+		<h2>Esprimi il tuo livello di soddisfazione premendo uno dei tasti!</h2>
+	</div>
+	<div class='row-fluid'>
+	<div class='span8  offset2' >
+		
+			<button type="button" role='button' data-vote="5" class="btn btn-success btn-large btn-block" >Completamente
+			soddisfatto
+			</button>
+		
+			<button type="button" data-vote="3" class="btn btn-info btn-large btn-block" data-toggle='modal' data-target='#myModal'>Mediamente soddisfatto
+			</button>
+		
+			<button type="button" data-vote="1" class="btn btn-large btn-block" data-toggle='modal' data-target='#myModal'>Non
+			del tutto soddisfatto</button>
+	</div>
+	</div>	
+</div>
+
+
+<!-- Modal success-->
+<div id="myModal" class="modal hidex fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+  <div class="modal-header">
+    <h1 id="myModalLabel"></h1>
+  </div>
+  <div class="modal-body">
+    <p class="lead" id='top'></p>
+    <p class="lead" id='bot'></p>
+  </div>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+@charset "UTF-8";
+
+.hero-unit {
+	text-align:center; 	/*allineamento centrale*/
+}
+.btn-large {
+    font-size: 35px; 	/*aumentata grandezza carattere*/
+    height:130px; 		/*aumentata altezza bottone*/
+}
+#myModal {
+	height: 500px;		/*imposto altezza del modal */
+}
+#myModalLabel {
+	text-align:center;
+}
+.modal-body{
+	text-align:center;
+	
+}
+
+#top{
+	margin-top:75px;	/*imposto lo spazio sopra al testo, nel modal*/
+	
+}
+#top,#bot{
+	font-size:28px;		/*grandezza carattere all'interno del modal*/
+}
